@@ -1,0 +1,64 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: bhimtal-backend
+
+  # Supabase PostgreSQL Database Configuration
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://${SUPABASE_DB_HOST:db.your-project-ref.supabase.co}:${SUPABASE_DB_PORT:5432}/${SUPABASE_DB_NAME:postgres}?sslmode=require}
+    username: ${SPRING_DATASOURCE_USERNAME:${SUPABASE_DB_USER:postgres.your-project-ref}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${SUPABASE_DB_PASSWORD:your-supabase-db-password}}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX_SIZE:10}
+      minimum-idle: ${DB_POOL_MIN_IDLE:2}
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
+
+  # JPA & Hibernate Settings
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:false}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    open-in-view: false
+
+  # Spring Boot Mail Configuration (Inquiry & Booking Notifications)
+  mail:
+    host: ${SPRING_MAIL_HOST:smtp.gmail.com}
+    port: ${SPRING_MAIL_PORT:587}
+    username: ${SPRING_MAIL_USERNAME:your-email@example.com}
+    password: ${SPRING_MAIL_PASSWORD:your-email-app-password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+# Bhimtal Tourism Platform Custom App Configurations
+app:
+  mail:
+    notification-recipient: ${NOTIFICATION_EMAIL:admin@bhimtaltravel.com}
+    sender: ${MAIL_FROM:noreply@bhimtaltravel.com}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5000}
+
+# Logging configuration
+logging:
+  level:
+    com.bhimtal.portal: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: WARN
